@@ -1,5 +1,9 @@
 #include "threepp/threepp.hpp"
 using namespace threepp;
+#include <cmath>
+float sinus_bølge(float x,float A=1,float f=1,float b=0) {
+    return sin(x)*2;
+}
 int main() {
     Canvas canvas("threepp");
     GLRenderer renderer(canvas);
@@ -40,6 +44,7 @@ int main() {
     const float dt = clock.getDelta();
         for (int i = 0; i < 8; i++) {
             box[i]->rotation.y -= 1.0f * dt;
+            box[i]->position.y = sinus_bølge(clock.getElapsedTime(),2,1,0);
         }
 
     renderer.render(*scene, *camera);
