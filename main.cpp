@@ -7,20 +7,28 @@ int main() {
     scene->background = Color::white;
     auto camera = PerspectiveCamera::create(60, canvas.aspect(), 0.1f, 1000);
     camera->position.z = 5;
+
+    // håndterer vindusstørrelseendringer
     canvas.onWindowResize([&](WindowSize size) {
     camera->aspect = size.aspect();
     camera->updateProjectionMatrix();
     renderer.setSize(size);
     });
+
+    // lagger alt som skal i scenen
     auto light = DirectionalLight::create();
     light->position.set(1, 2, 3);
     scene->add(light);
     scene->add(AmbientLight::create(0xffffff, 0.4f)); // hvitt lys med 40 % styrke
+
+    // lager geomtri i scenen
     auto geometry = BoxGeometry::create(1, 1, 1);
     auto material = MeshStandardMaterial::create();
     material->color = Color::orange;
     auto box = Mesh::create(geometry, material);
     scene->add(box);
+
+    // animasjons loop
     Clock clock;
     canvas.animate([&] {
     const float dt = clock.getDelta();
