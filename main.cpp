@@ -22,17 +22,26 @@ int main() {
     scene->add(AmbientLight::create(0xffffff, 0.4f)); // hvitt lys med 40 % styrke
 
     // lager geomtri i scenen
-    auto geometry = BoxGeometry::create(1, 1, 1);
+    auto geometry = BoxGeometry::create(0.5, 0.5, 0.5);
     auto material = MeshStandardMaterial::create();
     material->color = Color::orange;
-    auto box = Mesh::create(geometry, material);
-    scene->add(box);
+
+    std::vector<std::shared_ptr<Mesh>> box;
+    for (int i = 0; i < 8; i++) {
+        //auto box = Mesh::create(geometry, material);
+        box.push_back(Mesh::create(geometry, material));
+        box[i]->position.set(-3.5+i, 0, 0);
+        scene->add(box[i]);
+    }
 
     // animasjons loop
     Clock clock;
     canvas.animate([&] {
     const float dt = clock.getDelta();
-    box->rotation.y += 1.0f * dt; // én radian per sekund
+        for (int i = 0; i < 8; i++) {
+            box[i]->rotation.y -= 1.0f * dt;
+        }
+
     renderer.render(*scene, *camera);
     });
 }
