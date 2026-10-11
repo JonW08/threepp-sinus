@@ -44,7 +44,11 @@ int main() {
     const float dt = clock.getDelta();
         for (int i = 0; i < 8; i++) {
             box[i]->rotation.y -= 1.0f * dt;
-            box[i]->position.y = sinus_bølge(clock.getElapsedTime(),2,1,0);
+            if(i%2==0){
+                box[i]->position.y = sinus_bølge(clock.getElapsedTime(),2,1,0);
+            }else {
+                box[i]->position.y = sinus_bølge(clock.getElapsedTime()+3.14f,2,1,0);
+            }
         }
 
     renderer.render(*scene, *camera);
