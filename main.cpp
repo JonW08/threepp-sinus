@@ -4,11 +4,13 @@ using namespace threepp;
 float sinus_bølge(float x,float A=1,float f=1,float b=0) {
     return sin(x)*2;
 }
+/* konstante variabler */
+const int antall_kuber = 8;
 int main() {
     Canvas canvas("threepp");
     GLRenderer renderer(canvas);
     auto scene = Scene::create();
-    scene->background = Color::white;
+    scene->background = Color::aliceblue;
     auto camera = PerspectiveCamera::create(60, canvas.aspect(), 0.1f, 1000);
     camera->position.z = 5;
 
@@ -32,7 +34,7 @@ int main() {
     std::vector<Color> colors{Color::red, Color::blue};
     std::vector<std::shared_ptr<MeshStandardMaterial>> material;
     std::vector<std::shared_ptr<Mesh>> box;
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < antall_kuber; i++) {
         //auto box = Mesh::create(geometry, material);
         material.push_back(MeshStandardMaterial::create());
         material[i]->color = Color::blue;
