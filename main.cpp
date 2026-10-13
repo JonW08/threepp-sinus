@@ -1,12 +1,18 @@
 #include "threepp/threepp.hpp"
-using namespace threepp;
 #include <cmath>
-float sinus_bølge(float x,float A=1,float f=1,float b=0) {
-    return sin(x)*2;
-}
+
+using namespace threepp;
+
 /* konstante variabler */
-const int antall_kuber = 8;
+const double pi = std::numbers::pi;
+const int number_cubes = 8;
+
+float sinus_wave(float x,float A=1,float f=1,float b=0) {
+    return A*sin(2*pi*x*f+b);
+}
+
 int main() {
+
     Canvas canvas("threepp");
     GLRenderer renderer(canvas);
     auto scene = Scene::create();
@@ -34,7 +40,7 @@ int main() {
     std::vector<Color> colors{Color::red, Color::blue};
     std::vector<std::shared_ptr<MeshStandardMaterial>> material;
     std::vector<std::shared_ptr<Mesh>> box;
-    for (int i = 0; i < antall_kuber; i++) {
+    for (int i = 0; i < number_cubes; i++) {
         //auto box = Mesh::create(geometry, material);
         material.push_back(MeshStandardMaterial::create());
         material[i]->color = Color::blue;
@@ -49,7 +55,7 @@ int main() {
 
         if (event.key == Key::SPACE) {
             Space_click++;
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < number_cubes; i++) {
                 if(i%2==0){
                     material[i]->color = colors[Space_click%2];
                 }else {
@@ -65,12 +71,12 @@ int main() {
     Clock clock;
     canvas.animate([&] {
     const float dt = clock.getDelta();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < number_cubes; i++) {
             box[i]->rotation.y -= 1.0f * dt;
             if(i%2==0){
-                box[i]->position.y = sinus_bølge(clock.getElapsedTime(),2,1,0);
+                box[i]->position.y = sinus_wave(clock.getElapsedTime(),2,.1,0);
             }else {
-                box[i]->position.y = sinus_bølge(clock.getElapsedTime()+3.14f,2,1,0);
+                box[i]->position.y = sinus_wave(clock.getElapsedTime(),2,.1,pi);
             }
         }
 
