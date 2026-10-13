@@ -29,17 +29,35 @@ int main() {
     auto geometry = BoxGeometry::create(0.5, 0.5, 0.5);
 
 
-
+    std::vector<Color> colors{Color::red, Color::blue};
     std::vector<std::shared_ptr<MeshStandardMaterial>> material;
     std::vector<std::shared_ptr<Mesh>> box;
     for (int i = 0; i < 8; i++) {
         //auto box = Mesh::create(geometry, material);
         material.push_back(MeshStandardMaterial::create());
-        material[i]->color = Color::orange;
+        material[i]->color = Color::blue;
         box.push_back(Mesh::create(geometry, material[i]));
         box[i]->position.set(-3.5+i, 0, 0);
         scene->add(box[i]);
     }
+
+    // Space knapp bytter farge på annenhver
+    int Space_click = 0;
+    canvas.onKeyPressed([&](KeyEvent event) {
+
+        if (event.key == Key::SPACE) {
+            Space_click++;
+            for (int i = 0; i < 8; i++) {
+                if(i%2==0){
+                    material[i]->color = colors[Space_click%2];
+                }else {
+                    material[i]->color = colors[(Space_click+1)%2];
+
+                }
+            }
+
+        }
+    });
 
     // animasjons loop
     Clock clock;
